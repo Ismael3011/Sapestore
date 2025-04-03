@@ -1,0 +1,31 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Sapestore";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+$marcaId = isset($_GET['marca_id']) ? (int)$_GET['marca_id'] : 0;
+
+$sql = "SELECT ID, nombre FROM Categoria_Marca WHERE marca_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $marcaId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$categorias = [];
+while ($row = $result->fetch_assoc()) {
+    $categorias[] = $row;
+}
+
+header('Content-Type: application/json');
+echo json_encode($categorias);
+
+$stmt->close();
+$conn->close();
+?>

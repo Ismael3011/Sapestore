@@ -1,0 +1,570 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0;
+}
+
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: rgba(227,66,43,255);
+    margin-bottom: 30px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    text-align: center;
+}
+
+a {
+    color: rgba(227,66,43,255);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgba(227,66,43,255, 0.8);
+    text-decoration: underline;
+}
+
+.boton-contenedor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.boton-grupo {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+button, .boton-volver, .boton-agregar {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.boton-volver {
+    background-color: rgba(227,66,43,255);
+    color: #fff;
+}
+
+.boton-volver:hover {
+    background-color: rgba(227,66,43,255, 0.8);
+    box-shadow: 0 4px 8px rgba(227,66,43,0.3);
+}
+
+.boton-agregar {
+    background-color: rgba(227,66,43,255);
+    color: #fff;
+}
+
+.boton-agregar:hover {
+    background-color: rgba(227,66,43,255, 0.8);
+    box-shadow: 0 4px 8px rgba(227,66,43,0.3);
+}
+
+.formulario-buscador {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.formulario-buscador input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    width: 200px;
+}
+
+.formulario-buscador button {
+    padding: 10px 20px;
+    background-color: #cb432d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-buscador button:hover {
+    background-color: rgba(203, 67, 45, 0.8);
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    text-align: left;
+    display: table;
+    overflow-x: auto;
+    margin: 0 auto;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    min-width: 150px;
+    text-align: center;
+}
+
+th {
+    background-color: rgba(227,66,43,255);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+td a {
+    color: rgba(227,66,43,255);
+    font-weight: bold;
+}
+
+td a:hover {
+    color: rgba(227,66,43,255, 0.8);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+.table-responsive {
+    position: relative;
+    overflow-x: auto;
+    padding-top: 20px;
+}
+
+.scroll-wrapper {
+    overflow-x: auto;
+    position: relative;
+    margin-bottom: -20px;
+}
+
+.scrollbar-top {
+    height: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.scrollbar-top div {
+    height: 1px;
+}
+
+.table-responsive table {
+    margin-top: -16px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(227, 66, 43, 0.8);
+    border-radius: 4px;
+}
+
+.scroll-wrapper::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+.table-responsive::-webkit-scrollbar {
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.table-container table {
+    width: auto;
+    border-collapse: collapse;
+}
+
+form {
+    display: inline-block;
+}
+
+form input[type="text"], form input[type="number"], form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 400px;
+    margin: 5px 0;
+}
+
+form button {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+.alerta {
+    text-align: center;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.alerta.exito {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alerta.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.formulario-centrado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.formulario-centrado label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.formulario-centrado input, .formulario-centrado select {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.tallas-contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.talla {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.tallas-contenedor .boton-agregar {
+    align-self: center;
+    margin-top: 10px;
+}
+
+.boton-eliminar {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.boton-eliminar:hover {
+    background-color: #cc0000;
+}
+
+.formulario-compacto .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.formulario-compacto label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.formulario-compacto input, .formulario-compacto select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.punny-headline {
+    position: relative;
+    background-image: url('fotos/crtz.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    height: 500px;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    animation: rotateBackground 8s infinite ease-in-out;
+}
+
+@keyframes rotateBackground {
+    0%, 33% {
+        background-image: url('fotos/crtz.jpg');
+    }
+    34%, 66% {
+        background-image: url('fotos/fondo2.jpg');
+    }
+    67%, 100% {
+        background-image: url('fotos/fondo3.jpg');
+    }
+}
+
+.card-img-container {
+    width: 100%;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.card-img-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.brand-logo {
+    width: 100%;
+    height: 100px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(227,66,43,0.8);
+    border-radius: 50%;
+    padding: 1px;
+    color: black;
+}
+
+.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {
+    background-color: rgba(227,66,43,255);
+}
+
+.carousel-control-prev {
+    left: -50px;
+}
+
+.carousel-control-next {
+    right: -50px;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(227,66,43,0.4);
+}
+
+.popular-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    pointer-events: none;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.product-card:hover .popular-icon {
+    transform: scale(1.1);
+}
+
+.brand-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(227,66,43,0.4);
+}
+
+.brand-card .font-weight-bold {
+    color: #000;
+    text-decoration: none;
+}
+
+.brand-card:hover .font-weight-bold {
+    color: rgba(227,66,43,255);
+    text-decoration: none;
+}
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card-link:hover {
+    text-decoration: none;
+}
+
+.product-card-link:hover .card-title {
+    color: rgba(227,66,43,255);
+}
+
+.card-title {
+    color: #000;
+    font-weight: bold;
+}
+
+.marca-nombre {
+    font-size: 0.9em;
+    color: #979593;
+    margin-bottom: 5px;
+}
+
+.precio-minimo {
+    font-size: 1em;
+    color: #494847;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.action-link {
+    color: rgba(227, 66, 43, 1);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.action-link:hover {
+    color: rgba(227, 66, 43, 0.8);
+}
+
+.edit-link {
+    color: #007bff;
+}
+
+.edit-link:hover {
+    color: #0056b3;
+}
+
+.delete-link {
+    color: #dc3545;
+}
+
+.delete-link:hover {
+    color: #c82333;
+}
+
+.popular-link {
+    color: #000000;
+}
+
+.popular-link:hover {
+    color: #000000;
+}
+
+.fast-delivery-link {
+    color: #000000;
+}
+
+.fast-delivery-link:hover {
+    color: #000000;
+}
+
+.popular-link.active {
+    color: #000000; 
+    font-weight: bold;
+}
+
+.fast-delivery-link.active {
+    color: #000000; 
+    font-weight: bold;
+}
+
+.action-separator {
+    color: #6c757d; 
+    margin: 0 5px;
+}
