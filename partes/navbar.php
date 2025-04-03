@@ -63,7 +63,9 @@
   <!-- Iconos a la derecha -->
   <div class="navbar-icons">
     <img src="fotos/carrito.png" alt="Carrito" class="icon" />
-    <img src="fotos/usuario.webp" alt="Usuario" class="icon" />
+    <a href="login.php">
+        <img src="fotos/usuario.webp" alt="Usuario" class="icon">
+    </a>
   </div>
 </nav>
 

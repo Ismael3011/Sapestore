@@ -207,8 +207,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="button" class="boton-agregar" onclick="addTalla()">Agregar Talla</button>
                 </div>
                 <h3>Imágenes Adicionales</h3>
-                <div id="images-container" class="images-contenedor">
-                    <input type="file" name="additional_images[]" accept="image/*" onchange="addImageInput(this)">
+                <div id="images-container" class="images-contenedor" style="display: flex; flex-wrap: wrap; gap: 10px; max-height: 150px; overflow-y: auto;">
+                    <input type="file" name="additional_images[]" accept="image/*" onchange="addImageInput(this)" style="flex: 1 1 auto;">
                 </div>
             <?php endif; ?>
 
@@ -276,6 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 newInput.type = 'file';
                 newInput.name = 'additional_images[]';
                 newInput.accept = 'image/*';
+                newInput.style.flex = '1 1 auto';
                 newInput.onchange = function () {
                     addImageInput(newInput);
                 };

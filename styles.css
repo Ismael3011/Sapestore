@@ -254,10 +254,10 @@ form button {
 
 .alerta {
     text-align: center;
-    padding: 15px;
-    margin: 20px 0;
+    padding: 10px;
+    margin: 10px 0;
     border-radius: 5px;
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .alerta.exito {
@@ -277,6 +277,12 @@ form button {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .formulario-centrado label {
@@ -284,9 +290,8 @@ form button {
     margin-bottom: 5px;
 }
 
-.formulario-centrado input, .formulario-centrado select {
+.formulario-centrado input {
     width: 100%;
-    max-width: 400px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -567,4 +572,25 @@ form button {
 .action-separator {
     color: #6c757d; 
     margin: 0 5px;
+}
+
+.fondo {
+    background-image: url('public/fotos/fondo1.png');
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+}
+
+.images-contenedor {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+    max-width: 100%;
+    margin-top: 20px; 
+    overflow-x: hidden; 
+}
+
+.images-contenedor input[type="file"] {
+    width: 100%; 
+    max-width: 100%; 
 }
