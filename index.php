@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar</title>
+  <title>Sapestore</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
   <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
 </head>
@@ -26,19 +26,17 @@
       const backgroundLink = document.getElementById('dynamicBackgroundLink');
       const nextIndex = (currentIndex + 1) % images.length;
 
-      // Update the next background image and link
       backgroundElement.style.backgroundImage = `url('${images[nextIndex].url}')`;
-      backgroundLink.setAttribute('href', images[nextIndex].link); // Update link
-      backgroundElement.classList.add('fade-in'); // Add fade-in class
+      backgroundLink.setAttribute('href', images[nextIndex].link); 
+      backgroundElement.classList.add('fade-in'); 
 
-      // Remove the fade-in class after the animation
       setTimeout(() => {
         backgroundElement.classList.remove('fade-in');
-        currentIndex = nextIndex; // Update the current index
-      }, 1000); // Match the CSS transition duration
+        currentIndex = nextIndex; 
+      }, 1000); 
     }
 
-    setInterval(changeBackground, 5000); // Change image every 5 seconds
+    setInterval(changeBackground, 5000); 
   </script>
 
   <div class="container py-5">
@@ -89,14 +87,14 @@
       <div class="popular-products-container">
         <div class="popular-products-row">
           <?php
-          $popularFile = 'admin/popular_products.json'; // Updated path
+          $popularFile = 'admin/popular_products.json'; 
           $popularProducts = [];
 
           if (file_exists($popularFile)) {
               $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
           }
 
-          $fastDeliveryFile = 'admin/fast_delivery_products.json'; // Added path for fast delivery products
+          $fastDeliveryFile = 'admin/fast_delivery_products.json'; 
           $fastDeliveryProducts = [];
 
           if (file_exists($fastDeliveryFile)) {
@@ -166,14 +164,14 @@
       <div class="streetwear-products-container">
         <div class="streetwear-products-row">
           <?php
-          $popularFile = 'admin/popular_products.json'; // Updated path
+          $popularFile = 'admin/popular_products.json';
           $popularProducts = [];
 
           if (file_exists($popularFile)) {
               $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
           }
 
-          $fastDeliveryFile = 'admin/fast_delivery_products.json'; // Added path for fast delivery products
+          $fastDeliveryFile = 'admin/fast_delivery_products.json'; 
           $fastDeliveryProducts = [];
 
           if (file_exists($fastDeliveryFile)) {
