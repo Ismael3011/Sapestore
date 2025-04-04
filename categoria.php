@@ -48,14 +48,14 @@
     $totalProductos = $resultTotal->fetch_assoc()['total'];
     $totalPages = ceil($totalProductos / $limit);
 
-    $popularFile = 'admin/popular_products.json'; // Updated path
+    $popularFile = 'admin/popular_products.json';
     $popularProducts = [];
 
     if (file_exists($popularFile)) {
         $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
     }
 
-    $fastDeliveryFile = 'admin/fast_delivery_products.json'; // Added path for fast delivery products
+    $fastDeliveryFile = 'admin/fast_delivery_products.json';
     $fastDeliveryProducts = [];
 
     if (file_exists($fastDeliveryFile)) {

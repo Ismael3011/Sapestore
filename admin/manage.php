@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
+}
+
 $servidor = "localhost";
 $usuario = "root";
 $contrasena = "";
@@ -178,6 +184,8 @@ if (!$resultado) {
                                    data-type="fast_delivery">
                                    <?php echo in_array($fila['ID'], $fastDeliveryProducts) ? 'Quitar de Entrega Rápida' : 'Agregar a Entrega Rápida'; ?>
                                 </a>
+                                <span class="action-separator">|</span>
+                                <a href="../public/views/producto.php?id=<?php echo $fila['ID']; ?>" class="action-link">Ver Producto</a>
                             <?php endif; ?>
                         </td>
                     </tr>

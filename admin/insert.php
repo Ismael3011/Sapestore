@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -31,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         $targetFile = $targetDir . basename($_FILES['logo_url']['name']);
         if (move_uploaded_file($_FILES['logo_url']['tmp_name'], $targetFile)) {
-            $_POST['logo_url'] = "fotos/" . basename($_FILES['logo_url']['name']); // Save relative path
+            $_POST['logo_url'] = "fotos/" . basename($_FILES['logo_url']['name']); 
         } else {
             echo "Error al guardar el logo.";
         }

@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
+}
+
 header('Content-Type: application/json');
 
 $popularFile = 'popular_products.json';

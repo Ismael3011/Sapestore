@@ -17,33 +17,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $direccion = $_POST['direccion'];
     $telefono = $_POST['telefono'];
 
+    $resetFields = [];
+
     if (strlen($contrasena) < 10) {
         $error = "La contraseña debe tener al menos 10 caracteres.";
+        $resetFields[] = 'contrasena';
     } elseif (!preg_match('/^\d{9}$/', $telefono)) {
         $error = "El teléfono debe tener exactamente 9 números.";
+        $resetFields[] = 'telefono';
     } else {
-        $contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
+        $sqlCheckEmail = "SELECT * FROM Usuario WHERE mail = ?";
+        $stmtCheckEmail = $conn->prepare($sqlCheckEmail);
+        $stmtCheckEmail->bind_param("s", $email);
+        $stmtCheckEmail->execute();
+        $resultCheckEmail = $stmtCheckEmail->get_result();
 
-        $sql = "INSERT INTO Usuario (nombre, mail, contrasena, direccion, telefono, rol) VALUES (?, ?, ?, ?, ?, 'cliente')";
-        $stmt = $conn->prepare($sql);
+        $sqlCheckPhone = "SELECT * FROM Usuario WHERE telefono = ?";
+        $stmtCheckPhone = $conn->prepare($sqlCheckPhone);
+        $stmtCheckPhone->bind_param("s", $telefono);
+        $stmtCheckPhone->execute();
+        $resultCheckPhone = $stmtCheckPhone->get_result();
 
-        if (!$stmt) {
-            die("Error en la preparación de la consulta: " . $conn->error);
-        }
-
-        $stmt->bind_param("sssss", $nombre, $email, $contrasena, $direccion, $telefono);
-
-        if ($stmt->execute()) {
-            echo "<script>
-                alert('Registro exitoso. Ahora serás redirigido al inicio de sesión.');
-                window.location.href = 'login.php';
-            </script>";
-            exit;
+        if ($resultCheckEmail->num_rows > 0) {
+            $error = "El correo electrónico ya está registrado.";
+            $resetFields[] = 'email'; 
+        } elseif ($resultCheckPhone->num_rows > 0) {
+            $error = "El teléfono ya está registrado.";
+            $resetFields[] = 'telefono';
         } else {
-            $error = "Error al registrar el usuario: " . $conn->error;
+            $contrasena = password_hash($contrasena, PASSWORD_BCRYPT);
+
+            $sql = "INSERT INTO Usuario (nombre, mail, contrasena, direccion, telefono, rol) VALUES (?, ?, ?, ?, ?, 'cliente')";
+            $stmt = $conn->prepare($sql);
+
+            if (!$stmt) {
+                die("Error en la preparación de la consulta: " . $conn->error);
+            }
+
+            $stmt->bind_param("sssss", $nombre, $email, $contrasena, $direccion, $telefono);
+
+            if ($stmt->execute()) {
+                echo "<script>
+                    alert('Registro exitoso. Ahora serás redirigido al inicio de sesión.');
+                    window.location.href = 'login.php';
+                </script>";
+                exit;
+            } else {
+                $error = "Error al registrar el usuario: " . $conn->error;
+            }
+
+            $stmt->close();
         }
 
-        $stmt->close();
+        $stmtCheckEmail->close();
+        $stmtCheckPhone->close();
+    }
+
+    foreach ($resetFields as $field) {
+        if ($field !== 'contrasena') {
+            $$field = '';
+        }
     }
 }
 

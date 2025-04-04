@@ -62,9 +62,22 @@
 
   <!-- Iconos a la derecha -->
   <div class="navbar-icons">
-    <img src="fotos/carrito.png" alt="Carrito" class="icon" />
+    <?php
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start(); // Inicia la sesión solo si no está activa
+    }
+    if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin'): ?>
+      <a href="admin/admin.php">
+        <img src="fotos/configuracion.png" alt="Configuración" class="icon">
+      </a>
+    <?php else: ?>
+      <img src="fotos/carrito.png" alt="Carrito" class="icon" />
+    <?php endif; ?>
+    <?php
+    $userIcon = isset($_SESSION['user']) ? 'usuariolog.png' : 'usuario.webp';
+    ?>
     <a href="login.php">
-        <img src="fotos/usuario.webp" alt="Usuario" class="icon">
+        <img src="fotos/<?php echo $userIcon; ?>" alt="Usuario" class="icon">
     </a>
   </div>
 </nav>
@@ -80,5 +93,10 @@
   function toggleSearchBar() {
     const searchBar = document.getElementById('searchBar');
     searchBar.classList.toggle('active');
+  }
+
+  function toggleUserDetails() {
+    const userDetails = document.getElementById('userDetails');
+    userDetails.style.display = userDetails.style.display === 'none' ? 'block' : 'none';
   }
 </script>

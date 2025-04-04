@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
+}
+
 $servidor = "localhost";
 $usuario = "root";
 $contrasena = "";
@@ -24,6 +30,22 @@ $tablas = ["Categoria", "Marca", "Categoria_Marca", "Usuario", "Producto", "Tall
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Sapestore</title>
     <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>">
+    <style>
+        .boton-volver {
+            display: block;
+            margin: 30px auto 0 auto;
+            text-align: center;
+            width: 200px;
+        }
+        .contenedor {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
 
@@ -36,6 +58,9 @@ $tablas = ["Categoria", "Marca", "Categoria_Marca", "Usuario", "Producto", "Tall
                 <li><a href="manage.php?table=<?php echo $tabla; ?>"><?php echo $tabla; ?></a></li>
             <?php endforeach; ?>
         </ul>
+    </div>
+    <div class="text-center mt-4">
+        <a href="../index.php" class="boton-agregar boton-volver">Volver al Inicio</a>
     </div>
 </body>
 </html>
