@@ -8,16 +8,32 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <style>
+    @media (max-width: 768px) {
+  .product-card {
+    margin-bottom: 20px;
+  }
+
+  .card-img-container {
+    height: 150px;
+    overflow: hidden;
+  }
+
+  .card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+    </style>
   </head>
 
   <body>
     <?php include 'partes/navbar.php'; ?>
 
     <?php
-    $conn = new mysqli("localhost", "root", "", "Sapestore");
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+    include_once 'config.php';
 
     $marcaId = $_GET['id'];
     $sqlMarca = "SELECT nombre, descripcion FROM Marca WHERE ID = ?";
@@ -75,7 +91,7 @@
       <div class="row">
         <?php if ($resultProductos->num_rows > 0): ?>
           <?php while ($producto = $resultProductos->fetch_assoc()): ?>
-            <div class="col-md-3 mb-4">
+            <div class="col-6 col-md-3 mb-4"> <!-- Ajustado para 2 productos por fila en móviles -->
               <a href="producto.php?id=<?php echo $producto['ID']; ?>" class="product-card-link">
                 <div class="product-card">
                   <?php if (in_array($producto['ID'], $popularProducts)): ?>

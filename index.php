@@ -6,6 +6,24 @@
   <title>Sapestore</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
   <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
+  <style>
+
+    @media (max-width: 768px) {
+      html, body {
+        overflow-x: hidden;
+      }
+
+      .popular-products-row, .streetwear-products-row {
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 15px; 
+      }
+
+      .popular-product-card, .streetwear-product-card {
+        width: 100%; 
+      }
+    }
+  </style>
 </head>
 <body>
   <?php include 'partes/navbar.php'; ?>
@@ -43,22 +61,19 @@
     <div id="brandCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
       <div class="carousel-inner">
         <?php
-        $conn = new mysqli("localhost", "root", "", "Sapestore");
-        if ($conn->connect_error) {
-            die("Conexión fallida: " . $conn->connect_error);
-        }
+        include_once 'config.php';
 
         $sql = "SELECT ID, nombre, logo_url FROM Marca";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0):
           $brands = $result->fetch_all(MYSQLI_ASSOC);
-          $chunks = array_chunk($brands, 4); 
+          $chunks = array_chunk($brands, 4);
           foreach ($chunks as $index => $chunk): ?>
             <div class="carousel-item <?php echo $index === 0 ? 'active' : ''; ?>">
               <div class="row">
                 <?php foreach ($chunk as $brand): ?>
-                  <div class="col-md-3 mb-4">
+                  <div class="col-6 col-md-3 mb-4">
                     <a href="marca.php?id=<?php echo $brand['ID']; ?>" class="brand-card d-block text-center p-3">
                       <img src="<?php echo $brand['logo_url']; ?>" alt="<?php echo $brand['nombre']; ?>" class="brand-logo">
                       <span class="d-block font-weight-bold"><?php echo $brand['nombre']; ?></span>
@@ -83,7 +98,7 @@
       <span class="section-title-underline">Productos Populares</span>
     </h2>
     <div class="popular-products-wrapper">
-      <button class="scroll-button left" onclick="scrollPopularProducts(-1)">&#8249;</button>
+      <button class="scroll-button left" onclick="scrollProducts('.popular-products-container', -1)">&#8249;</button>
       <div class="popular-products-container">
         <div class="popular-products-row">
           <?php
@@ -151,7 +166,7 @@
           ?>
         </div>
       </div>
-      <button class="scroll-button right" onclick="scrollPopularProducts(1)">&#8250;</button>
+      <button class="scroll-button right" onclick="scrollProducts('.popular-products-container', 1)">&#8250;</button>
     </div>
   </div>
 
@@ -160,7 +175,7 @@
       <span class="section-title-underline">StreetWear</span>
     </h2>
     <div class="streetwear-products-wrapper">
-      <button class="scroll-button left" onclick="scrollStreetwearProducts(-1)">&#8249;</button>
+      <button class="scroll-button left" onclick="scrollProducts('.streetwear-products-container', -1)">&#8249;</button>
       <div class="streetwear-products-container">
         <div class="streetwear-products-row">
           <?php
@@ -223,7 +238,7 @@
           <?php } ?>
         </div>
       </div>
-      <button class="scroll-button right" onclick="scrollStreetwearProducts(1)">&#8250;</button>
+      <button class="scroll-button right" onclick="scrollProducts('.streetwear-products-container', 1)">&#8250;</button>
     </div>
   </div>
 
@@ -233,17 +248,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    function scrollPopularProducts(direction) {
-      const container = document.querySelector('.popular-products-container');
-      const scrollAmount = 320;
-      container.scrollBy({
-        left: direction * scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-
-    function scrollStreetwearProducts(direction) {
-      const container = document.querySelector('.streetwear-products-container');
+    function scrollProducts(containerSelector, direction) {
+      const container = document.querySelector(containerSelector);
       const scrollAmount = 320;
       container.scrollBy({
         left: direction * scrollAmount,

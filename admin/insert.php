@@ -4,13 +4,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     header("Location: ../login.php");
     exit;
 }
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Sapestore";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
+include_once '../config.php';
 
 $table = $_GET['table'];
 

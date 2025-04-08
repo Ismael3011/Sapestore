@@ -13,10 +13,7 @@
     <?php include 'partes/navbar.php'; ?>
 
     <?php
-    $conn = new mysqli("localhost", "root", "", "Sapestore");
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+   include_once 'config.php';
 
     $categoriaMarcaId = $_GET['id'];
     $sqlCategoriaMarca = "SELECT cm.nombre AS categoria_nombre, m.nombre AS marca_nombre, m.descripcion AS marca_descripcion 

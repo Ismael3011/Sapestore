@@ -5,18 +5,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     exit;
 }
 
-$servidor = "localhost";
-$usuario = "root";
-$contrasena = "";
-$base_datos = "Sapestore";
-
-// Crear conexión
-$conn = new mysqli($servidor, $usuario, $contrasena, $base_datos);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+include_once '../config.php';
 
 $tabla = $_GET['table'];
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
@@ -185,7 +174,7 @@ if (!$resultado) {
                                    <?php echo in_array($fila['ID'], $fastDeliveryProducts) ? 'Quitar de Entrega Rápida' : 'Agregar a Entrega Rápida'; ?>
                                 </a>
                                 <span class="action-separator">|</span>
-                                <a href="../public/views/producto.php?id=<?php echo $fila['ID']; ?>" class="action-link">Ver Producto</a>
+                                <a href="../producto.php?id=<?php echo $fila['ID']; ?>" class="action-link">Ver Producto</a>
                             <?php endif; ?>
                         </td>
                     </tr>

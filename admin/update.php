@@ -1,10 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Sapestore";
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit;
+}
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+include_once '../config.php';
 
 $table = $_GET['table'];
 $id = $_GET['id'];

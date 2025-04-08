@@ -5,12 +5,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     exit;
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "Sapestore";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
+include_once '../config.php';
 
 $table = $_GET['table'];
 $id = $_GET['id'];

@@ -8,7 +8,7 @@
   <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
 </head>
 <body>
-  <?php include 'partes/navbar.php'; ?>
+  <?php include 'partes/navbar.php';?>
 
   <div class="container py-5">
     <h2 class="text-center mb-4">Resultados de Búsqueda</h2>
@@ -30,11 +30,7 @@
       }
 
       if ($query) {
-          $conn = new mysqli("localhost", "root", "", "Sapestore");
-          if ($conn->connect_error) {
-              die("Conexión fallida: " . $conn->connect_error);
-          }
-
+        include_once 'config.php';
           $sql = "SELECT p.ID, p.nombre AS producto_nombre, p.imagen_url, m.nombre AS marca_nombre, 
                          (SELECT MIN(t.precio) FROM Talla t 
                           INNER JOIN Producto_Talla pt ON t.ID = pt.talla_id 

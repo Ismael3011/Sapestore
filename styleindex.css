@@ -150,6 +150,7 @@ a:hover {
 
 .icon:hover {
     transform: scale(1.1);
+    outline: none;
 }
 
 .fondo {
@@ -293,6 +294,12 @@ a:hover {
     z-index: 2;
 }
 
+.product-card .card-title {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    max-height: 1.2em; 
+}
+
 .popular-icon {
     position: absolute;
     top: 10px;
@@ -339,8 +346,9 @@ a:hover {
 }
 
 .card-title {
-    color: #000;
+    color: #000; 
     font-weight: bold;
+    font-size: 1.2em; 
     margin-top: 10px;
     margin-bottom: 10px;
     white-space: nowrap;
@@ -363,7 +371,7 @@ a:hover {
 
 .card-img-container {
     width: 100%;
-    height: 250px;
+    height: 250px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -372,9 +380,9 @@ a:hover {
 }
 
 .card-img-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%; 
+    object-fit: contain; 
 }
 
 .card-body {
@@ -388,6 +396,22 @@ a:hover {
     flex: 0 0 25%;
     max-width: 25%;
     padding: 15px;
+}
+
+.list-group {
+    list-style-type: none; 
+    padding-left: 0;
+}
+
+.list-group-item {
+    border: none;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
 }
 
 #popularProductsCarousel {
@@ -736,5 +760,282 @@ a:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
     text-align: center;
+}
+
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.order-card-header {
+    background-color: #343a40;
+    color: #fff;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-card-body {
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.order-card-body p {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.order-card-body h5 {
+    color: #cb432d;
+    margin-bottom: 15px;
+}
+
+.order-card-body .list-group-item {
+    border: none;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-card-body .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.order-card-body .list-group-item strong {
+    color: #333;
+}
+
+.order-card-footer {
+    padding: 15px;
+    background-color: #fff;
+    text-align: right;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    border-top: 1px solid #ddd;
+}
+
+.badge-circle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .badge-circle {
+        position: absolute;
+        top: 20px;
+        right: 50px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .fondo {
+        height: 300px;
+    }
+
+    .product-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+    }
+
+    .card-img-container {
+        height: 200px;
+    }
+
+    .brand-card {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        display: none;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .pagination .page-item {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    .footer .col-md-4 {
+        margin-bottom: 20px;
+    }
+
+    .formulario-centrado {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .tallas-contenedor {
+        width: 100%;
+    }
+
+    .talla {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .images-contenedor {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .order-card {
+        margin-bottom: 20px;
+    }
+
+    .order-card-header {
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    .order-card-body {
+        padding: 10px;
+    }
+
+    .order-card-footer {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .cart-img-container {
+        height: 200px;
+    }
+
+    .product-details {
+        margin-top: 10px;
+    }
+
+    .streetwear-products-row, .popular-products-row {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .streetwear-product-card, .popular-product-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .product-card {
+        width: 100%;
+        margin: 10px 0;
+        padding: 15px; 
+    }
+
+    .card-img-container {
+        height: 250px; 
+    }
+
+    .card-title {
+        white-space: normal;
+        overflow: visible; 
+        text-overflow: unset; 
+        font-size: 1em; 
+    }
+
+    .brand-logo {
+        height: 80px;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        display: none;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    .footer .col-md-4 {
+        margin-bottom: 20px;
+    }
+
+    .row .col-md-3 {
+        flex: 0 0 50%; 
+        max-width: 50%; 
+    }
+}
+
+@media (max-width: 480px) {
+    h1, h2 {
+        font-size: 1.2em;
+    }
+
+    .navbar {
+        padding: 5px;
+    }
+
+    .icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .card-img-container {
+        height: 150px;
+    }
+
+    .footer {
+        font-size: 0.8em;
+    }
+
+    .brand-logo {
+        height: 60px;
+    }
+
+    .formulario-centrado {
+        padding: 5px;
+    }
+
+    .order-card-header {
+        font-size: 0.9em;
+    }
+
+    .order-card-body p {
+        font-size: 0.9em;
+    }
+
+    .order-card-footer {
+        font-size: 0.8em;
+    }
+
+    .streetwear-products-row, .popular-products-row {
+        gap: 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-logo {
+        height: 60px; 
+    }
+
+    .carousel-inner .col-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
 }
 

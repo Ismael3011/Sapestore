@@ -280,7 +280,7 @@ form button {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff; 
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -560,17 +560,17 @@ form button {
 }
 
 .popular-link.active {
-    color: #000000; 
+    color: #000000;
     font-weight: bold;
 }
 
 .fast-delivery-link.active {
-    color: #000000; 
+    color: #000000;
     font-weight: bold;
 }
 
 .action-separator {
-    color: #6c757d; 
+    color: #6c757d;
     margin: 0 5px;
 }
 
@@ -583,14 +583,136 @@ form button {
 
 .images-contenedor {
     display: flex;
-    flex-direction: column; 
-    gap: 10px; 
+    flex-direction: column;
+    gap: 10px;
     max-width: 100%;
-    margin-top: 20px; 
-    overflow-x: hidden; 
+    margin-top: 20px;
+    overflow-x: hidden;
 }
 
 .images-contenedor input[type="file"] {
-    width: 100%; 
-    max-width: 100%; 
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .contenedor {
+        width: 100%;
+        padding: 15px;
+        box-shadow: none;
+    }
+
+    h1, h2 {
+        font-size: 1.5em;
+    }
+
+    .navbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+    }
+
+    .navbar-icons {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .menu-icon-container {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .dropdown-menu a {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .product-card {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+    }
+
+    .card-img-container {
+        height: 200px;
+    }
+
+    .brand-card {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        display: none;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .pagination .page-item {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    .footer .col-md-4 {
+        margin-bottom: 20px;
+    }
+
+    .formulario-centrado {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .tallas-contenedor {
+        width: 100%;
+    }
+
+    .talla {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .images-contenedor {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    h1, h2 {
+        font-size: 1.2em;
+    }
+
+    .navbar {
+        padding: 5px;
+    }
+
+    .icon {
+        width: 25px;
+        height: 25px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .card-img-container {
+        height: 150px;
+    }
+
+    .footer {
+        font-size: 0.8em;
+    }
 }

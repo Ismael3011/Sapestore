@@ -13,10 +13,7 @@
     <?php include 'partes/navbar.php'; ?>
 
     <?php
-    $conn = new mysqli("localhost", "root", "", "Sapestore");
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+    include_once 'config.php';
 
     $categoriaNombre = urldecode($_GET['nombre']);
     $sqlCategoria = "SELECT nombre, descripcion FROM Categoria WHERE nombre = ?";

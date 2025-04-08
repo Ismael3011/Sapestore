@@ -7,41 +7,96 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
     <style>
-        .main-image {
-            width: 100%;
-            height: 500px;
-            object-fit: contain;
-            transition: opacity 0.3s ease;
+    .main-image {
+        width: 100%;
+        height: 500px;
+        object-fit: contain;
+        transition: opacity 0.3s ease;
+    }
+
+    .additional-images {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .additional-images img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .additional-images img:hover {
+        transform: scale(1.1);
+        border-color: #cb432d;
+    }
+
+    .product-details {
+        margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .row {
+            flex-direction: column; 
+        }
+
+        .col-md-2 {
+            order: 1; 
+        }
+
+        .col-md-5 {
+            order: 2;
         }
 
         .additional-images {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center; 
-            justify-content: center; 
-            height: 500px;
+            flex-direction: row; 
+            gap: 15px;
+            align-items: flex-start;
         }
 
         .additional-images img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .additional-images img:hover {
-            transform: scale(1.1);
-            border-color: #cb432d;
+            width: 50px; 
+            height: 50px;
         }
 
         .product-details {
             margin-top: 20px; 
         }
-    </style>
+
+        .main-image {
+            margin-bottom: 20px; 
+        }
+
+        .related-products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .row {
+            align-items: center; 
+        }
+
+        .additional-images {
+            justify-content: center; 
+        }
+
+        .related-products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+    }
+</style>
+
     <script>
         let currentMainImage = null;
 
@@ -61,10 +116,7 @@
     <?php include 'partes/navbar.php'; ?>
 
     <?php
-    $conn = new mysqli("localhost", "root", "", "Sapestore");
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
+    include_once 'config.php';
 
     $productoId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -97,14 +149,15 @@
     $stmtTallas->execute();
     $resultTallas = $stmtTallas->get_result();
 
-    // Obtener productos relacionados
+    // Obtener productos relacionados (aleatorios de la misma marca)
     $sqlRelacionados = "SELECT p.ID, p.nombre AS producto_nombre, p.imagen_url, 
                                (SELECT MIN(t.precio) FROM Talla t 
                                 INNER JOIN Producto_Talla pt ON t.ID = pt.talla_id 
                                 WHERE pt.producto_id = p.ID) AS precio_minimo
                         FROM Producto p
                         WHERE p.marca_id = ? AND p.ID != ?
-                        LIMIT 4"; // Limit to 4 related products
+                        ORDER BY RAND() 
+                        LIMIT 4"; // Select 4 random related products
     $stmtRelacionados = $conn->prepare($sqlRelacionados);
     $stmtRelacionados->bind_param("ii", $producto['marca_id'], $productoId);
     $stmtRelacionados->execute();
@@ -131,10 +184,10 @@
                     <h1><?php echo htmlspecialchars($producto['producto_nombre']); ?></h1>
                     <p><?php echo htmlspecialchars($producto['descripcion']); ?></p>
                     <h4>Tallas disponibles:</h4>
-                    <form action="carrito.php" method="POST">
+                    <form id="addToCartForm">
                         <input type="hidden" name="producto_id" value="<?php echo $producto['ID']; ?>">
                         <div class="form-group">
-                            <select name="talla_id" class="form-control" required>
+                            <select name="talla_id" id="talla_id" class="form-control" required>
                                 <option value="">Seleccione una talla</option>
                                 <?php while ($talla = $resultTallas->fetch_assoc()): ?>
                                     <option value="<?php echo $talla['ID']; ?>">
@@ -143,9 +196,54 @@
                                 <?php endwhile; ?>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-danger">Añadir al Carrito</button>
+                        <button type="button" id="addToCartButton" class="btn btn-danger">Añadir al Carrito</button>
                     </form>
+                    <div id="cartMessage" class="mt-3" style="display: none;"></div>
                 </div>
+                <script>
+                    document.getElementById('addToCartButton').addEventListener('click', function () {
+                        const tallaId = document.getElementById('talla_id').value;
+                        if (!tallaId) {
+                            alert('Por favor, seleccione una talla.');
+                            return;
+                        }
+
+                        const formData = new FormData();
+                        formData.append('talla_id', tallaId);
+
+                        fetch('carrito.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const cartMessage = document.getElementById('cartMessage');
+                                cartMessage.textContent = 'Producto añadido al carrito.';
+                                cartMessage.style.display = 'block';
+                                cartMessage.style.color = 'green';
+
+                                // Update cart count in the navbar dynamically
+                                const cartBadge = document.getElementById('cartCountBadge');
+                                if (cartBadge) {
+                                    cartBadge.textContent = data.cartCount;
+                                    cartBadge.style.display = 'inline-block';
+                                }
+                            } else {
+                                if (data.message === 'Debes iniciar sesión para añadir productos al carrito.') {
+                                    alert(data.message);
+                                    window.location.href = 'login.php'; // Redirect to login page
+                                } else {
+                                    alert('Error al añadir el producto al carrito.');
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Error al procesar la solicitud.');
+                        });
+                    });
+                </script>
             </div>
         <?php else: ?>
             <p class="text-center">Producto no encontrado.</p>
@@ -156,19 +254,17 @@
         <h2 class="section-title text-center mb-4 text-uppercase font-weight-bold">
             <span class="section-title-underline">Productos Relacionados</span>
         </h2>
-        <div class="row">
+        <div class="related-products">
             <?php if ($resultRelacionados->num_rows > 0): ?>
                 <?php while ($relacionado = $resultRelacionados->fetch_assoc()): ?>
-                    <div class="col-md-3 mb-4">
+                    <div class="product-card">
                         <a href="producto.php?id=<?php echo $relacionado['ID']; ?>" class="product-card-link">
-                            <div class="product-card">
-                                <div class="card-img-container">
-                                    <img src="<?php echo $relacionado['imagen_url']; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($relacionado['producto_nombre']); ?>">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo htmlspecialchars($relacionado['producto_nombre']); ?></h5>
-                                    <p class="precio-minimo">Desde: $<?php echo number_format($relacionado['precio_minimo'], 2); ?></p>
-                                </div>
+                            <div class="card-img-container">
+                                <img src="<?php echo $relacionado['imagen_url']; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($relacionado['producto_nombre']); ?>">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($relacionado['producto_nombre']); ?></h5>
+                                <p class="precio-minimo">Desde: $<?php echo number_format($relacionado['precio_minimo'], 2); ?></p>
                             </div>
                         </a>
                     </div>

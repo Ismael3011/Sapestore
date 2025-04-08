@@ -10,11 +10,7 @@
   <body>
     <?php include 'partes/navbar.php'; ?>
     <?php
-    $conn = new mysqli("localhost", "root", "", "Sapestore");
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
-
+    include_once 'config.php';
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $limit = 12;
     $offset = ($page - 1) * $limit;
