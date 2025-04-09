@@ -24,17 +24,25 @@ if (file_exists($fastDeliveryFile)) {
     $fastDeliveryProducts = json_decode(file_get_contents($fastDeliveryFile), true) ?? [];
 }
 
-$sql = "SELECT * FROM $tabla";
-if ($search) {
-    $sql .= " WHERE nombre LIKE ?";
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['search'])) {
+    // Barra de busqueda por nombreo id.
+    $search = trim($_GET['search']);
+    if (is_numeric($search)) {
+        $sql = "SELECT * FROM $tabla WHERE ID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $search);
+    } else {
+        $sql = "SELECT * FROM $tabla WHERE nombre LIKE ?";
+        $stmt = $conn->prepare($sql);
+        $searchTerm = "%$search%";
+        $stmt->bind_param("s", $searchTerm);
+    }
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+} else {
+    $sql = "SELECT * FROM $tabla";
+    $resultado = $conn->query($sql);
 }
-$stmt = $conn->prepare($sql);
-if ($search) {
-    $searchTerm = "%$search%";
-    $stmt->bind_param("s", $searchTerm);
-}
-$stmt->execute();
-$resultado = $stmt->get_result();
 
 if (!$resultado) {
     die("Error en la consulta: " . $conn->error);
@@ -49,6 +57,7 @@ if (!$resultado) {
     <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Guardar donde estas para que no se recarge si eliminas.
         function saveScrollPosition() {
             const scrollPosition = window.scrollY;
             const url = new URL(window.location.href);
@@ -75,7 +84,7 @@ if (!$resultado) {
             const productId = button.data('id');
             const action = button.data('action');
             const type = button.data('type');
-
+            // AJAX para que no haay que recargar la pagina al actualiza los productos
             $.ajax({
                 url: 'toggle_status.php',
                 method: 'POST',
@@ -133,7 +142,7 @@ if (!$resultado) {
             </div>
             <form method="get" class="formulario-buscador">
                 <input type="hidden" name="table" value="<?php echo $tabla; ?>">
-                <input type="text" id="search" name="search" value="<?php echo htmlspecialchars($search); ?>" placeholder="Buscar por nombre">
+                <input type="text" id="search" name="search" value="<?php echo htmlspecialchars($search); ?>" placeholder="Buscar por ID o Nombre">
                 <button type="submit" class="boton-agregar">Buscar</button>
             </form>
         </div>

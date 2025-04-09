@@ -111,6 +111,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar <?php echo $table; ?></title>
     <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>">
+    <style>
+        .images-contenedor {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 100%; 
+            overflow-x: auto; 
+        }
+        .images-contenedor input[type="file"] {
+            flex: 1 1 auto;
+            max-width: 200px; 
+        }
+    </style>
 </head>
 <body>
 
@@ -126,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<div class='form-group'>";
                     echo "<label for='{$row['Field']}'>{$row['Field']}:</label>";
                     if ($row['Field'] == 'imagen_url' || $row['Field'] == 'logo_url') {
+                        // Si es foto que haya que meter archivo
                         echo "<input type='file' id='{$row['Field']}' name='{$row['Field']}' accept='image/*'>";
                     } elseif ($row['Field'] == 'categoria_id') {
                         echo "<select id='{$row['Field']}' name='{$row['Field']}' required>";
@@ -133,6 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $foreignResult = $conn->query($foreignSql);
                         if ($foreignResult->num_rows > 0) {
                             while ($foreignRow = $foreignResult->fetch_assoc()) {
+                                // Elegir la categoría de la marca
                                 echo "<option value='{$foreignRow['ID']}'>{$foreignRow['nombre']}</option>";
                             }
                         } else {
@@ -158,6 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <select id="marca_id" name="marca_id" required onchange="loadCategories(this.value)">
                         <option value="">Seleccione una marca</option>
                         <?php
+                        // Cargar marcas
                         $sql = "SELECT ID, nombre FROM Marca";
                         $result = $conn->query($sql);
                         while ($row = $result->fetch_assoc()) {
@@ -173,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </div>
                 <script>
+                    // Cargar categorías al seleccionar una marca si es que las tiene
                     function loadCategories(marcaId) {
                         const categoriaSelect = document.getElementById('categoria_marca_id');
                         categoriaSelect.innerHTML = '<option value="">Cargando categorías...</option>';
@@ -233,7 +250,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script>
         let tallaIndex = 1;
-
+        // La funcion anade tallas a la lista si ya se ha metido una, sucesivamente
         function addTalla() {
             const container = document.getElementById('tallas-container');
             const div = document.createElement('div');
@@ -252,11 +269,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         function removeTalla(button) {
+            // Elimina la talla en la que se pulse eliminar
             const tallaDiv = button.parentElement;
             tallaDiv.remove();
         }
 
         function cleanEmptyTallas() {
+            // No mete las tallas vacias
             const container = document.getElementById('tallas-container');
             if (!container) return;
             const tallas = container.querySelectorAll('.talla');
@@ -270,6 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         function addImageInput(input) {
+            // Añade un nuevo input de imagen si se ha subido una imagen
             if (input.files && input.files.length > 0) {
                 const container = document.getElementById('images-container');
                 const newInput = document.createElement('input');

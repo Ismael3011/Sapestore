@@ -11,7 +11,6 @@ $table = $_GET['table'];
 $id = $_GET['id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Handle main image upload
     if (isset($_FILES['imagen_url']) && $_FILES['imagen_url']['error'] == UPLOAD_ERR_OK) {
         $targetDir = "../fotos/";
         if (!is_dir($targetDir)) {
@@ -26,19 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (isset($_FILES['logo_url']) && $_FILES['logo_url']['error'] == UPLOAD_ERR_OK) {
-        $targetDir = "../fotos/"; // Corrected directory path
+        $targetDir = "../fotos/"; 
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true); // Ensure the directory exists
+            mkdir($targetDir, 0777, true);
         }
         $targetFile = $targetDir . basename($_FILES['logo_url']['name']);
         if (move_uploaded_file($_FILES['logo_url']['tmp_name'], $targetFile)) {
-            $_POST['logo_url'] = "fotos/" . basename($_FILES['logo_url']['name']); // Save relative path
+            $_POST['logo_url'] = "fotos/" . basename($_FILES['logo_url']['name']); 
         } else {
             echo "Error al guardar el logo.";
         }
     }
 
-    // Handle additional images
+    // Para que no haya problemas al actualizar las imagenes adiccionales
     $additionalImages = [];
     if (isset($_FILES['additional_images']) && count($_FILES['additional_images']['name']) > 0) {
         $targetDir = "../fotos/";
@@ -91,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $set = [];
     foreach ($_POST as $key => $value) {
+
         if ($key === 'tallas') {
             continue;
         }
@@ -121,7 +121,7 @@ $row = $result->fetch_assoc();
     <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>">
     <style>
         .images-contenedor {
-            margin-top: 20px; /* Add margin to align with the main image */
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -138,7 +138,7 @@ $row = $result->fetch_assoc();
             while ($column = $result->fetch_assoc()) {
                 if ($column['Field'] != 'ID' && $column['Field'] != 'marca_id' && $column['Field'] != 'categoria_marca_id') {
                     echo "<label for='{$column['Field']}'>{$column['Field']}:</label><br>";
-                    if ($column['Field'] == 'logo_url' || $column['Field'] == 'imagen_url') { // Handle both as file inputs
+                    if ($column['Field'] == 'logo_url' || $column['Field'] == 'imagen_url') { 
                         echo "<input type='file' id='{$column['Field']}' name='{$column['Field']}' accept='image/*'><br><br>";
                     } elseif ($column['Field'] == 'categoria_id') {
                         echo "<select id='{$column['Field']}' name='{$column['Field']}' required>";
@@ -258,7 +258,7 @@ $row = $result->fetch_assoc();
                             <button type="button" class="boton-eliminar" onclick="removeTalla(this)">Eliminar</button>
                         `;
                         container.insertBefore(div, container.querySelector('.boton-agregar'));
-                        tallaIndex = 'new'; // Keep adding new tallas
+                        tallaIndex = 'new';
                     }
 
                     function removeTalla(button, tallaId = null) {

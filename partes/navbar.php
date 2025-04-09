@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+include 'config.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -146,10 +147,6 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <div class="submenu">
           <?php
-          $conn = new mysqli("localhost", "root", "", "Sapestore");
-          if ($conn->connect_error) {
-              die("Conexión fallida: " . $conn->connect_error);
-          }
           $sql = "SELECT nombre FROM Categoria";
           $result = $conn->query($sql);
           if ($result->num_rows > 0) {

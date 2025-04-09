@@ -15,14 +15,14 @@
     <div class="row">
       <?php
       $query = isset($_GET['query']) ? trim($_GET['query']) : '';
-      $popularFile = 'admin/popular_products.json'; // Updated path
+      $popularFile = 'admin/popular_products.json'; 
       $popularProducts = [];
 
       if (file_exists($popularFile)) {
           $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
       }
 
-      $fastDeliveryFile = 'admin/fast_delivery_products.json'; // Added path for fast delivery products
+      $fastDeliveryFile = 'admin/fast_delivery_products.json';
       $fastDeliveryProducts = [];
 
       if (file_exists($fastDeliveryFile)) {
@@ -30,6 +30,7 @@
       }
 
       if ($query) {
+        // Buscar en base a lo que se haya introducido, puede ser marca o productos
         include_once 'config.php';
           $sql = "SELECT p.ID, p.nombre AS producto_nombre, p.imagen_url, m.nombre AS marca_nombre, 
                          (SELECT MIN(t.precio) FROM Talla t 

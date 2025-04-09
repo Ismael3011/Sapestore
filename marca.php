@@ -65,14 +65,14 @@
     $totalProductos = $resultTotal->fetch_assoc()['total'];
     $totalPages = ceil($totalProductos / $limit);
 
-    $popularFile = 'admin/popular_products.json'; // Updated path
+    $popularFile = 'admin/popular_products.json'; 
     $popularProducts = [];
 
     if (file_exists($popularFile)) {
         $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
     }
 
-    $fastDeliveryFile = 'admin/fast_delivery_products.json'; // Added path for fast delivery products
+    $fastDeliveryFile = 'admin/fast_delivery_products.json'; 
     $fastDeliveryProducts = [];
 
     if (file_exists($fastDeliveryFile)) {
@@ -91,7 +91,7 @@
       <div class="row">
         <?php if ($resultProductos->num_rows > 0): ?>
           <?php while ($producto = $resultProductos->fetch_assoc()): ?>
-            <div class="col-6 col-md-3 mb-4"> <!-- Ajustado para 2 productos por fila en móviles -->
+            <div class="col-6 col-md-3 mb-4">
               <a href="producto.php?id=<?php echo $producto['ID']; ?>" class="product-card-link">
                 <div class="product-card">
                   <?php if (in_array($producto['ID'], $popularProducts)): ?>

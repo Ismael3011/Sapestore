@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($_SESSION['cart'] as $item) {
             $total += $item['precio'] * $item['quantity'];
         }
-
+        // Pendiente de actuaizacion cuando meta una psarela de pagos
         if (isset($_POST['payment_confirmed']) && $_POST['payment_confirmed'] === 'yes') {
             $conn->begin_transaction();
             try {

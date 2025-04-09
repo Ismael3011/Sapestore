@@ -1,5 +1,5 @@
 <?php
-session_start(); // Ensure the session is started at the top of the file
+session_start(); // Inicia la sesión al principio del archivo
 
 include_once 'config.php';
 
@@ -104,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <h2 class="mt-5 text-center">Mis Pedidos</h2>
             <?php
+            // Pedidos que haya realizado el usuario
             $userId = $_SESSION['user']['ID'];
             $sqlOrders = "SELECT p.ID AS pedido_id, p.fecha, p.total, p.direccion, 
                                  dp.cantidad, t.numero AS talla, t.precio, 

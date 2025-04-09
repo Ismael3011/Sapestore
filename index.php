@@ -36,9 +36,10 @@
     const images = [
       { url: 'fotos/fondo1.png', link: 'categoria_marca.php?id=5' }, // Bad Bunny
       { url: 'fotos/fondodunks.png', link: 'categoria_marca.php?id=1' } // Dunk
+      { url: 'fotos/fondo4.png', link: 'categoria.php?nombre=Zapatillas' } // Zapatillas
     ];
     let currentIndex = 0;
-
+    // Que roten las imahenes principales, cada una con su path
     function changeBackground() {
       const backgroundElement = document.getElementById('dynamicBackground');
       const backgroundLink = document.getElementById('dynamicBackgroundLink');
@@ -65,7 +66,7 @@
 
         $sql = "SELECT ID, nombre, logo_url FROM Marca";
         $result = $conn->query($sql);
-
+        // Carrousel de marcas
         if ($result->num_rows > 0):
           $brands = $result->fetch_all(MYSQLI_ASSOC);
           $chunks = array_chunk($brands, 4);
@@ -92,7 +93,6 @@
       </div>
     </div>
   </div>
-
   <div class="container py-5">
     <h2 class="section-title text-center mb-4 text-uppercase font-weight-bold">
       <span class="section-title-underline">Productos Populares</span>
@@ -108,7 +108,7 @@
           if (file_exists($popularFile)) {
               $popularProducts = json_decode(file_get_contents($popularFile), true) ?? [];
           }
-
+          // Ver los productos de entrega rapida
           $fastDeliveryFile = 'admin/fast_delivery_products.json'; 
           $fastDeliveryProducts = [];
 
@@ -131,7 +131,7 @@
                       LEFT JOIN Marca m ON p.marca_id = m.ID
                       WHERE p.ID IN ($ids)";
               $result = $conn->query($sql);
-
+              // Ver si hay productos populares
               if ($result->num_rows > 0):
                 while ($producto = $result->fetch_assoc()): ?>
                   <div class="popular-product-card">

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once 'config.php';
-
+// EN el caso de ser admin en el carrito apareceran los pedudos que hayan hecho los clientes
 if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin') {
     $sqlOrders = "SELECT p.ID AS pedido_id, p.fecha, p.total, p.direccion, 
                          u.nombre AS cliente_nombre, u.mail AS cliente_email, 
@@ -88,7 +88,7 @@ if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin') {
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
-
+// Comprobar que el usuario esta logeado.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['talla_id'])) {
     if (!isset($_SESSION['user'])) {
         echo json_encode(['success' => false, 'message' => 'Debes iniciar sesión para añadir productos al carrito.']);
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['talla_id'])) {
     }
 
     $tallaId = (int)$_POST['talla_id'];
-
+    // Comprobar que la talla existe en la base de datos.
     if (isset($_SESSION['cart'][$tallaId])) {
         $_SESSION['cart'][$tallaId]['quantity']++;
     } else {
