@@ -35,7 +35,7 @@
   <script>
     const images = [
       { url: 'fotos/fondo1.png', link: 'categoria_marca.php?id=5' }, // Bad Bunny
-      { url: 'fotos/fondodunks.png', link: 'categoria_marca.php?id=1' } // Dunk
+      { url: 'fotos/fondodunks.png', link: 'categoria_marca.php?id=1' }, // Dunk
       { url: 'fotos/fondo4.png', link: 'categoria.php?nombre=Zapatillas' } // Zapatillas
     ];
     let currentIndex = 0;
