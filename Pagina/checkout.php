@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="codigo_postal" name="codigo_postal" class="form-control" required>
             </div>
             <div class="form-group">
-                <label for="calle">Calle:</label>
+                <label for="calle">Calle y numero:</label>
                 <input type="text" id="calle" name="calle" class="form-control" required>
             </div>
             <button type="button" class="btn btn-success btn-block" onclick="confirmPayment()">Confirmar Pedido</button>
