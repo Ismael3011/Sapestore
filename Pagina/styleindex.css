@@ -69,8 +69,13 @@ a:hover {
     padding: 10px 0;
 }
 
+/* Ensure the dropdown menu does not flash when hovering over the search icon */
 .menu-icon-container:hover .dropdown-menu {
     display: block;
+}
+
+.search-icon:hover + .dropdown-menu {
+    display: none !important;
 }
 
 .dropdown-menu a {

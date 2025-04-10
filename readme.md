@@ -26,11 +26,16 @@ Sapestore es una tienda en línea especializada en zapatillas y ropa de moda urb
    git clone https://github.com/Ismael3011/Sapestore
    ```
 2. Configura la base de datos:
-   - Descargar el archivo db.sql y update.sql y crear la base de datos.
+   - Descargar el archivo `db.sql` y `update.sql` y crear la base de datos.
 
 3. Accede al proyecto:
    - Si usas XAMPP, coloca los archivos en la carpeta `htdocs` y accede a `http://localhost/Sapestore`.
-   - Si usas Docker, accede a `http://localhost:8080`.
+   - Si usas Docker:
+     - Ve a la carpeta `docker` y ejecuta:
+       ```bash
+       docker-compose up -d
+       ```
+     - Accede a `http://localhost:8080`.
 
 ## Uso
 

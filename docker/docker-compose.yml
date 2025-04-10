@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:8.1-apache # Imagen de docker con php y apache ya instalados
+    container_name: sapestore_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ../Pagina:/var/www/html # Pone la carpeta pagina en la ruta /var/www/html del contenedor
+    depends_on:
+      - db # Hasta que no este la base de datos no inicia la web
+
+  db:
+    image: mysql:8.0
+    container_name: sapestore_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sapestore
+      MYSQL_USER: sapestore_user
+      MYSQL_PASSWORD: sapestore_password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes: # Volumen para dejar los datos de la base de datos persistentes
+  db_data:
