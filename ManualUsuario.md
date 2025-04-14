@@ -29,15 +29,15 @@ _Ismael Fernández Archilla_
 2. **Estructura de las carpetas**  
    Asegúrate de que la estructura del proyecto sea la siguiente (de lo contrario `docker-compose` no podrá desplegarlo correctamente):
 
-Sapestore/ 
-├── docker/ 
-│ └── docker-compose.yml 
-├── Pagina/ 
-│ ├── index.php 
-│ ├── config.php 
-│ └── ... (resto de archivos y carpetas)
-
----
+```
+Sapestore/
+├── docker/
+│   └── docker-compose.yml
+├── Pagina/
+│   ├── index.php
+│   ├── config.php
+│   └── ... (resto de archivos y carpetas)
+```
 
 ### Instalación
 
@@ -46,13 +46,9 @@ Sapestore/
   ```bash
   cd c:/xampp/htdocs/Sapestore/docker
   ```
-- Ejecuta el siguiente comando para levantar el compose:
-  ```bash
-  docker-compose up -d
-  ```
 
 2. **Iniciar los contenedores**  
-- Ejecuta nuevamente:
+- Ejecuta:
   ```bash
   docker-compose up -d
   ```
@@ -179,7 +175,7 @@ Si se accede a la tabla de productos, se muestra una lista editable:
 - Editar, eliminar o agregar registros.  
 - Marcar productos como populares o de entrega rápida.
 
-![productos](fotosmanuales/admiproductos.png)
+![productos](fotosmanuales/productos.png)
 
 Al agregar un nuevo producto, se genera un formulario dinámico según la tabla:
 
@@ -196,7 +192,7 @@ Para otras tablas, el formulario es más simple.
 ---
 
 > ⚠️ **Recomendación para imágenes**:  
-> Aunque se permiten fondos y tamaños variados, se sugiere usar fondos similares o transparentes y dimensiones parecidas para mantener la armonía visual de la web.
+> Aunque se pueden poner muchos tipos de imagenes, es mejor que sean todas de las mismas dimensiones y el mismo fondo, para una correcta visualizacion de la web.
 
 ---
 
