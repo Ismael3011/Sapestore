@@ -146,6 +146,7 @@ include 'config.php';
           <span class="submenu-toggle"></span>
         </div>
         <div class="submenu">
+          
           <?php
           $sql = "SELECT nombre FROM Categoria";
           $result = $conn->query($sql);
