@@ -26,6 +26,22 @@
   }
 }
 
+    #filterForm {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    #filterForm.show {
+        display: flex;
+        opacity: 1;
+    }
+
+    .filter-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
     </style>
   </head>
 
@@ -54,10 +70,27 @@
                                  WHERE pt.producto_id = p.ID) AS precio_minimo
                          FROM Producto p
                          LEFT JOIN Marca m ON p.marca_id = m.ID
-                         WHERE p.marca_id = ?
-                         LIMIT ? OFFSET ?";
+                         WHERE p.marca_id = ?";
+    $params = [$marcaId];
+    $types = "i";
+
+    if (!empty($_GET['categoria'])) {
+        $sqlProductos .= " AND p.categoria_id = ?";
+        $params[] = $_GET['categoria'];
+        $types .= "i";
+    }
+
+    if (!empty($_GET['precio'])) {
+        $sqlProductos .= " ORDER BY precio_minimo " . ($_GET['precio'] === 'asc' ? "ASC" : "DESC");
+    }
+
+    $sqlProductos .= " LIMIT ? OFFSET ?";
+    $params[] = $limit;
+    $params[] = $offset;
+    $types .= "ii";
+
     $stmtProductos = $conn->prepare($sqlProductos);
-    $stmtProductos->bind_param("iii", $marcaId, $limit, $offset);
+    $stmtProductos->bind_param($types, ...$params);
     $stmtProductos->execute();
     $resultProductos = $stmtProductos->get_result();
 
@@ -88,6 +121,42 @@
     <?php endif; ?>
 
     <div class="container py-5">
+      <div class="filter-container mb-4">
+        <button type="button" class="btn btn-light" id="toggleFilterButton">
+            <img src="fotos/filtro.webp" alt="Filtrar" style="width: 40px; height: 40px;">
+        </button>
+        <form method="GET" class="form-inline" id="filterForm">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars($_GET['id']); ?>">
+            <div class="form-group mx-2">
+                <label for="precio" class="mr-2">Precio:</label>
+                <select name="precio" id="precio" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="asc" <?php echo (isset($_GET['precio']) && $_GET['precio'] === 'asc') ? 'selected' : ''; ?>>Menor a Mayor</option>
+                    <option value="desc" <?php echo (isset($_GET['precio']) && $_GET['precio'] === 'desc') ? 'selected' : ''; ?>>Mayor a Menor</option>
+                </select>
+            </div>
+            <div class="form-group mx-2">
+                <label for="categoria" class="mr-2">Categoría:</label>
+                <select name="categoria" id="categoria" class="form-control">
+                    <option value="">Todas</option>
+                    <?php
+                    $sqlCategorias = "SELECT DISTINCT c.ID, c.nombre FROM Categoria c 
+                                      INNER JOIN Producto p ON c.ID = p.categoria_id 
+                                      WHERE p.marca_id = ?";
+                    $stmtCategorias = $conn->prepare($sqlCategorias);
+                    $stmtCategorias->bind_param("i", $_GET['id']);
+                    $stmtCategorias->execute();
+                    $resultCategorias = $stmtCategorias->get_result();
+                    while ($categoria = $resultCategorias->fetch_assoc()): ?>
+                        <option value="<?php echo $categoria['ID']; ?>" <?php echo (isset($_GET['categoria']) && $_GET['categoria'] == $categoria['ID']) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($categoria['nombre']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mx-2">Filtrar</button>
+        </form>
+      </div>
       <div class="row">
         <?php if ($resultProductos->num_rows > 0): ?>
           <?php while ($producto = $resultProductos->fetch_assoc()): ?>
@@ -145,5 +214,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('toggleFilterButton').addEventListener('click', function () {
+            const filterForm = document.getElementById('filterForm');
+            if (filterForm.classList.contains('show')) {
+                filterForm.classList.remove('show');
+                setTimeout(() => filterForm.style.display = 'none', 300); 
+            } else {
+                filterForm.style.display = 'flex';
+                setTimeout(() => filterForm.classList.add('show'), 10);
+            }
+        });
+    </script>
   </body>
 </html>

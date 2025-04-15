@@ -6,6 +6,24 @@
     <title>Streetwear</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="styleindex.css?v=<?php echo time(); ?>" rel="stylesheet">
+    <style>
+      #filterForm {
+          display: none;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+      }
+
+      #filterForm.show {
+          display: flex;
+          opacity: 1;
+      }
+
+      .filter-container {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+      }
+    </style>
   </head>
   <body>
     <?php include 'partes/navbar.php'; ?>
@@ -23,10 +41,37 @@
                          FROM Producto p
                          LEFT JOIN Marca m ON p.marca_id = m.ID
                          LEFT JOIN Categoria c ON p.categoria_id = c.ID
-                         WHERE c.nombre IS NOT NULL AND c.nombre != 'Zapatillas'
-                         LIMIT ? OFFSET ?";
+                         WHERE c.nombre IS NOT NULL AND c.nombre != 'Zapatillas'";
+
+    $params = [];
+    $types = "";
+
+    // Apply filters
+    if (!empty($_GET['marca'])) {
+        $sqlProductos .= " AND p.marca_id = ?";
+        $params[] = $_GET['marca'];
+        $types .= "i";
+    }
+
+    if (!empty($_GET['categoria'])) {
+        $sqlProductos .= " AND p.categoria_id = ?";
+        $params[] = $_GET['categoria'];
+        $types .= "i";
+    }
+
+    if (!empty($_GET['precio'])) {
+        $sqlProductos .= " ORDER BY precio_minimo " . ($_GET['precio'] === 'asc' ? "ASC" : "DESC");
+    } else {
+        $sqlProductos .= " ORDER BY p.ID ASC"; // Default order
+    }
+
+    $sqlProductos .= " LIMIT ? OFFSET ?";
+    $params[] = $limit;
+    $params[] = $offset;
+    $types .= "ii";
+
     $stmtProductos = $conn->prepare($sqlProductos);
-    $stmtProductos->bind_param("ii", $limit, $offset);
+    $stmtProductos->bind_param($types, ...$params);
     $stmtProductos->execute();
     $resultProductos = $stmtProductos->get_result();
 
@@ -53,6 +98,56 @@
       <p>Explora nuestra colección de productos de Streetwear para combinar tus Sneakers de la mejor forma.</p>
     </div>
     <div class="container py-5">
+      <div class="filter-container mb-4">
+        <button type="button" class="btn btn-light" id="toggleFilterButton">
+          <img src="fotos/filtro.webp" alt="Filtrar" style="width: 40px; height: 40px;">
+        </button>
+        <form method="GET" class="form-inline" id="filterForm">
+          <div class="form-group mx-2">
+            <label for="precio" class="mr-2">Precio:</label>
+            <select name="precio" id="precio" class="form-control">
+              <option value="">Todos</option>
+              <option value="asc" <?php echo (isset($_GET['precio']) && $_GET['precio'] === 'asc') ? 'selected' : ''; ?>>Menor a Mayor</option>
+              <option value="desc" <?php echo (isset($_GET['precio']) && $_GET['precio'] === 'desc') ? 'selected' : ''; ?>>Mayor a Menor</option>
+            </select>
+          </div>
+          <div class="form-group mx-2">
+            <label for="marca" class="mr-2">Marca:</label>
+            <select name="marca" id="marca" class="form-control">
+              <option value="">Todas</option>
+              <?php
+              $sqlMarcas = "SELECT DISTINCT m.ID, m.nombre 
+                            FROM Marca m
+                            INNER JOIN Producto p ON m.ID = p.marca_id
+                            INNER JOIN Categoria c ON p.categoria_id = c.ID
+                            WHERE c.nombre != 'Zapatillas'";
+              $resultMarcas = $conn->query($sqlMarcas);
+              while ($marca = $resultMarcas->fetch_assoc()): ?>
+                <option value="<?php echo $marca['ID']; ?>" <?php echo (isset($_GET['marca']) && $_GET['marca'] == $marca['ID']) ? 'selected' : ''; ?>>
+                  <?php echo htmlspecialchars($marca['nombre']); ?>
+                </option>
+              <?php endwhile; ?>
+            </select>
+          </div>
+          <div class="form-group mx-2">
+            <label for="categoria" class="mr-2">Categoría:</label>
+            <select name="categoria" id="categoria" class="form-control">
+              <option value="">Todas</option>
+              <?php
+              $sqlCategorias = "SELECT DISTINCT c.ID, c.nombre FROM Categoria c 
+                                INNER JOIN Producto p ON c.ID = p.categoria_id
+                                WHERE c.nombre != 'Zapatillas'"; 
+              $resultCategorias = $conn->query($sqlCategorias);
+              while ($categoria = $resultCategorias->fetch_assoc()): ?>
+                <option value="<?php echo $categoria['ID']; ?>" <?php echo (isset($_GET['categoria']) && $_GET['categoria'] == $categoria['ID']) ? 'selected' : ''; ?>>
+                  <?php echo htmlspecialchars($categoria['nombre']); ?>
+                </option>
+              <?php endwhile; ?>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mx-2">Filtrar</button>
+        </form>
+      </div>
       <div class="row">
         <?php if ($resultProductos->num_rows > 0): ?>
           <?php while ($producto = $resultProductos->fetch_assoc()): ?>
@@ -107,5 +202,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.getElementById('toggleFilterButton').addEventListener('click', function () {
+        const filterForm = document.getElementById('filterForm');
+        if (filterForm.classList.contains('show')) {
+            filterForm.classList.remove('show');
+            setTimeout(() => filterForm.style.display = 'none', 300); 
+        } else {
+            filterForm.style.display = 'flex';
+            setTimeout(() => filterForm.classList.add('show'), 10); 
+        }
+      });
+    </script>
   </body>
 </html>

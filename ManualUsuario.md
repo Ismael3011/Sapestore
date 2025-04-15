@@ -109,6 +109,7 @@ Si el usuario está logueado:
 Al hacer click en una marca o desde el menú de navegación:
 - Se muestra el nombre de la marca, descripción y sus productos.  
 - Es la misma vista que para categorías (StreetWear, etc.).
+- Todas estas vistas tienen  una opcion para filtrar los productos a tu gusto.
 
 Las cartas de producto incluyen:
 - Marca, nombre, precio más bajo (varía según la talla).  
