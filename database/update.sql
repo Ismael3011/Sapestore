@@ -18,3 +18,4 @@ CREATE TABLE Producto_Imagen (
 ALTER TABLE Producto MODIFY COLUMN categoria_marca_id INT NULL;
 
 ALTER TABLE Pedidos ADD COLUMN direccion TEXT NOT NULL;
+
