@@ -1,6 +1,6 @@
 # Sapestore
 
-Sapestore es una tienda en línea especializada en zapatillas y ropa de moda urbana. Este proyecto incluye funciones completas para la gestión de productos, usuarios, pedidos y más.
+Sapestore es una tienda en línea especializada en zapatillas y ropa de moda urbana. Este proyecto incluye funciones para la gestión de productos, usuarios, pedidos y más.
 
 ## Características
 
