@@ -23,6 +23,16 @@
         width: 100%; 
       }
     }
+    .product-card {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.5s ease-in-out;
+    }
+    
+    .product-card.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
   </style>
 </head>
 <body>
@@ -35,7 +45,7 @@
   <script>
     const images = [
       { url: 'fotos/fondo1.png', link: 'categoria_marca.php?id=5' }, // Bad Bunny
-      { url: 'fotos/fondodunks.png', link: 'categoria_marca.php?id=1' }, // Dunk
+      { url: 'fotos/fondodunks.png', link: 'categoria_marca.php?id=1' }, // Nike
       { url: 'fotos/fondo4.png', link: 'categoria.php?nombre=Zapatillas' } // Zapatillas
     ];
     let currentIndex = 0;
@@ -257,5 +267,37 @@
       });
     }
   </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.2 // Trigger when 20% of the section is visible
+    };
+
+    const observerCallback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const productCards = entry.target.querySelectorAll('.product-card');
+          productCards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.add('visible');
+            }, index * 100); // Add delay for staggered effect
+          });
+          observer.unobserve(entry.target); // Stop observing once animated
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe the "Productos Populares" and "StreetWear" sections
+    const popularSection = document.querySelector('.popular-products-wrapper');
+    const streetwearSection = document.querySelector('.streetwear-products-wrapper');
+
+    if (popularSection) observer.observe(popularSection);
+    if (streetwearSection) observer.observe(streetwearSection);
+  });
+</script>
 </body>
 </html>

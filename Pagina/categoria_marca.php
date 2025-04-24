@@ -24,6 +24,16 @@
             align-items: center;
             gap: 10px;
         }
+        .product-card {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.5s ease-in-out;
+}
+
+.product-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
     </style>
   </head>
 
@@ -188,5 +198,18 @@
             }
         });
     </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona todos los elementos con la clase .product-card
+    const productCards = document.querySelectorAll('.product-card');
+
+    // Aplica la clase 'visible' con un retraso escalonado
+    productCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('visible');
+      }, index * 100); // Retraso de 100ms por cada producto
+    });
+  });
+</script>
   </body>
 </html>

@@ -95,6 +95,16 @@
             gap: 20px;
         }
     }
+    .product-card {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.5s ease-in-out;
+}
+
+.product-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
 </style>
 
     <script>
@@ -276,7 +286,19 @@
     </div>
 
     <?php include 'partes/footer.php'; ?>
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Selecciona todos los elementos con la clase .product-card dentro de .related-products
+    const productCards = document.querySelectorAll('.related-products .product-card');
 
+    // Aplica la clase 'visible' con un retraso escalonado
+    productCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('visible');
+      }, index * 100); // Retraso de 100ms por cada producto
+    });
+  });
+</script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
