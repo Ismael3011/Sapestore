@@ -77,10 +77,14 @@
                                 m.nombre AS marca_nombre, 
                                 (SELECT MIN(t.precio) FROM Talla t 
                                  INNER JOIN Producto_Talla pt ON t.ID = pt.talla_id 
-                                 WHERE pt.producto_id = p.ID) AS precio_minimo
+                                 WHERE pt.producto_id = p.ID AND t.stock > 0) AS precio_minimo
                          FROM Producto p
                          LEFT JOIN Marca m ON p.marca_id = m.ID
-                         WHERE p.marca_id = ?";
+                         WHERE p.marca_id = ? AND EXISTS (
+                             SELECT 1 FROM Producto_Talla pt
+                             INNER JOIN Talla t ON pt.talla_id = t.ID
+                             WHERE pt.producto_id = p.ID AND t.stock > 0
+                         )";
     $params = [$marcaId];
     $types = "i";
 

@@ -136,10 +136,14 @@
               $sql = "SELECT p.ID, p.nombre AS producto_nombre, p.imagen_url, m.nombre AS marca_nombre, 
                              (SELECT MIN(t.precio) FROM Talla t 
                               INNER JOIN Producto_Talla pt ON t.ID = pt.talla_id 
-                              WHERE pt.producto_id = p.ID) AS precio_minimo
+                              WHERE pt.producto_id = p.ID AND t.stock > 0) AS precio_minimo
                       FROM Producto p
                       LEFT JOIN Marca m ON p.marca_id = m.ID
-                      WHERE p.ID IN ($ids)";
+                      WHERE p.ID IN ($ids) AND EXISTS (
+                          SELECT 1 FROM Producto_Talla pt
+                          INNER JOIN Talla t ON pt.talla_id = t.ID
+                          WHERE pt.producto_id = p.ID AND t.stock > 0
+                      )";
               $result = $conn->query($sql);
               // Ver si hay productos populares
               if ($result->num_rows > 0):
@@ -211,11 +215,15 @@
           $sql = "SELECT p.ID, p.nombre AS producto_nombre, p.imagen_url, m.nombre AS marca_nombre, 
                          (SELECT MIN(t.precio) FROM Talla t 
                           INNER JOIN Producto_Talla pt ON t.ID = pt.talla_id 
-                          WHERE pt.producto_id = p.ID) AS precio_minimo
+                          WHERE pt.producto_id = p.ID AND t.stock > 0) AS precio_minimo
                   FROM Producto p
                   LEFT JOIN Marca m ON p.marca_id = m.ID
                   LEFT JOIN Categoria c ON p.categoria_id = c.ID
-                  WHERE c.nombre IS NOT NULL AND c.nombre != 'Zapatillas'";
+                  WHERE c.nombre IS NOT NULL AND c.nombre != 'Zapatillas' AND EXISTS (
+                      SELECT 1 FROM Producto_Talla pt
+                      INNER JOIN Talla t ON pt.talla_id = t.ID
+                      WHERE pt.producto_id = p.ID AND t.stock > 0
+                  )";
           $result = $conn->query($sql);
 
           if ($result === false) {
